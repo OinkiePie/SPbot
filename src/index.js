@@ -22,8 +22,13 @@ client.on('ready', () => {console.log(`Bot ${client.user.tag} has logged in.`)})
 
 client.on('interactionCreate', (interaction) => {
     if (interaction.isChatInputCommand()) {
-        console.log('helo worl')
-        interaction.channel.send({ content: 'Bot is shutting down' })
+        console.log('command');
+        // interaction.reply(`Amount of money: ${interaction.options.getInteger('amount')}\nMember: ${interaction.options.getUser('member')}`);
+        if (interaction.options.getString('operation') == 'add') {
+            interaction.reply(`You ${interaction.options.getString('operation')}ed ${interaction.options.getInteger('amount')} money to ${interaction.options.getUser('member')}'s balance`);
+        } else {
+            interaction.reply(`You ${interaction.options.getString('operation')}ed ${interaction.options.getInteger('amount')} money to ${interaction.options.getUser('member')}'s balance`);
+        }
     }
 });
 
@@ -31,7 +36,57 @@ async function main() {
     const commands = [
         {
             name: 'pay',
-            description: 'Give someone money', 
+            description: 'Перевести валюту другому участнику.', 
+            options: [
+                {
+                    name: 'member',
+                    description: 'Участник',
+                    type: 6,
+                    required: true,
+                },
+                {
+                    name: 'amount',
+                    description: 'Количетсво передаваемой валюты',
+                    type: 4,
+                    required: true,
+                }
+            ]
+        },
+        {
+            name: 'money',
+            description: 'Управление валютой',
+            options: [
+                {
+                    name: 'operation',
+                    description: 'Операция',
+                    type: 3,
+                    required: true,
+                    choices: [
+                        {
+                            name: 'Add',
+                            description: 'Добавить на баланс',
+                            value: 'add'
+                        },
+                        {
+                            name: 'Remove',
+                            description: 'Удалить с баланса',
+                            value: 'remove'
+                        }
+                    ]
+                },
+                {
+                    name: 'member',
+                    description: 'Участник',
+                    type: 6,
+                    required: true,
+                },
+                {
+                    name: 'amount',
+                    description: 'Количетсво валюты',
+                    type: 4,
+                    required: true,
+                }
+            ]
         }
     ];
 
