@@ -1,9 +1,12 @@
-import { config } from 'dotenv'; 
+import { config } from 'dotenv';
 import { Client, GatewayIntentBits, Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
 
-import pay from './commands/pay.js'
-import money from './commands/money.js'
+import payCommand from './commands/pay.js'
+import moneyCommand from './commands/money.js'
+import roleCommand from './commands/role.js'
+import banCommand from './commands/ban.js'
+import pingCommand from './commands/ping.js'
 
 config();
 
@@ -11,9 +14,9 @@ const TOKEN = process.env.TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.GUILD_ID;
 
-const rest = new REST({ version: '10'}).setToken(TOKEN);
+const rest = new REST({ version: '10' }).setToken(TOKEN);
 
-const client = new Client ({
+const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
@@ -21,22 +24,17 @@ const client = new Client ({
     ]
 });
 
-client.on('ready', () => {console.log(`Bot ${client.user.tag} has logged in.`)});
+client.on('ready', () => { console.log(`Bot ${client.user.tag} has logged in.`) });
 
 client.on('interactionCreate', (interaction) => {
     if (interaction.isChatInputCommand()) {
-        console.log('command');
-        // interaction.reply(`Amount of money: ${interaction.options.getInteger('amount')}\nMember: ${interaction.options.getUser('member')}`);
-        if (interaction.options.getString('operation') == 'add') {
-            interaction.reply(`You ${interaction.options.getString('operation')}ed ${interaction.options.getInteger('amount')} money to ${interaction.options.getUser('member')}'s balance`);
-        } else {
-            interaction.reply(`You ${interaction.options.getString('operation')}ed ${interaction.options.getInteger('amount')} money to ${interaction.options.getUser('member')}'s balance`);
-        }
+        console.log('Command received');
+        interaction.reply(interaction.toString());
     }
 });
 
-async function main() {       
-    const commands = [pay, money];
+async function init() {
+    const commands = [payCommand, moneyCommand, roleCommand, banCommand, pingCommand];
 
     client.login(TOKEN);
     try {
@@ -50,7 +48,7 @@ async function main() {
     }
 }
 
-main();
+init();
 
 client.on('messageCreate', (message) => {
     if (message.content == 'des' && message.author.id == '804950325265825815') {
