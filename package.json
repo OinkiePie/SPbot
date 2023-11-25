@@ -4,13 +4,14 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node .",
     "start:dev": "nodemon ./src/index.js"
   },
   "keywords": [],
   "author": "shashlychok",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^2.2.0",
     "discord.js": "^14.14.1"
   },
   "type": "module",
