@@ -2,11 +2,11 @@ import { config } from 'dotenv';
 import { Client, GatewayIntentBits, Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
 
+config();
+
 const TOKEN = process.env.TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.GUILD_ID;
-
-config();
 
 const rest = new REST({ version: '10'}).setToken(TOKEN);
 
@@ -20,11 +20,18 @@ const client = new Client ({
 
 client.on('ready', () => {console.log(`Bot ${client.user.tag} has logged in.`)});
 
+client.on('interactionCreate', (interaction) => {
+    if (interaction.isChatInputCommand()) {
+        console.log('helo worl')
+        interaction.channel.send({ content: 'Bot is shutting down' })
+    }
+});
+
 async function main() {
     const commands = [
         {
-            name: 'ping',
-            description: 'Pong!',
+            name: 'pay',
+            description: 'Give someone money', 
         }
     ];
 
