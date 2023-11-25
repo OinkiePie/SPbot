@@ -2,6 +2,9 @@ import { config } from 'dotenv';
 import { Client, GatewayIntentBits, Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
 
+import pay from './commands/pay.js'
+import money from './commands/money.js'
+
 config();
 
 const TOKEN = process.env.TOKEN;
@@ -32,63 +35,8 @@ client.on('interactionCreate', (interaction) => {
     }
 });
 
-async function main() {
-    const commands = [
-        {
-            name: 'pay',
-            description: 'Перевести валюту другому участнику.', 
-            options: [
-                {
-                    name: 'member',
-                    description: 'Участник',
-                    type: 6,
-                    required: true,
-                },
-                {
-                    name: 'amount',
-                    description: 'Количетсво передаваемой валюты',
-                    type: 4,
-                    required: true,
-                }
-            ]
-        },
-        {
-            name: 'money',
-            description: 'Управление валютой',
-            options: [
-                {
-                    name: 'operation',
-                    description: 'Операция',
-                    type: 3,
-                    required: true,
-                    choices: [
-                        {
-                            name: 'Add',
-                            description: 'Добавить на баланс',
-                            value: 'add'
-                        },
-                        {
-                            name: 'Remove',
-                            description: 'Удалить с баланса',
-                            value: 'remove'
-                        }
-                    ]
-                },
-                {
-                    name: 'member',
-                    description: 'Участник',
-                    type: 6,
-                    required: true,
-                },
-                {
-                    name: 'amount',
-                    description: 'Количетсво валюты',
-                    type: 4,
-                    required: true,
-                }
-            ]
-        }
-    ];
+async function main() {       
+    const commands = [pay, money];
 
     client.login(TOKEN);
     try {
